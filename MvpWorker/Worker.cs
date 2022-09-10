@@ -128,7 +128,7 @@ public class Worker : BackgroundService
     private async Task<string> GetEncounter(string messeageId)
     {
 
-        var content = "";
+        var content = " ";
         try
         {
 
