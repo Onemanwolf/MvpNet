@@ -8,7 +8,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddHostedService<Worker>();
         services.AddHttpClient<Worker>("MvpClient", c =>
         {
-            c.BaseAddress = new Uri("https://mvp-api.bluebeach-987e6b47.eastus.azurecontainerapps.io//");
+            c.BaseAddress = new Uri("https://mvp-api.bluebeach-987e6b47.eastus.azurecontainerapps.io/");
         });
     })
     .Build();
