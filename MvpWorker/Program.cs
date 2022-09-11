@@ -8,7 +8,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddHostedService<Worker>();
         services.AddHttpClient<Worker>("MvpClient", c =>
         {
-            c.BaseAddress = new Uri("http://localhost:5175/");
+            c.BaseAddress = new Uri("https://mvpdatasyncapi.azurewebsites.net/");
         });
     })
     .Build();
