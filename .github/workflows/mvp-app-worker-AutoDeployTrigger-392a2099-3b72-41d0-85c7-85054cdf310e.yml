@@ -28,6 +28,14 @@ jobs:
         env:
           ConnectionStrings.ServiceBusConnectionString: ${{ secrets.SERVICEBUS_CONNECTION_STRING }}
           ConnectionStrings.DataLakeConnectionString: ${{ secrets.DATALAKE_CONNECTION_STRING }}
+      - name: Copy
+        uses: andstor/copycat-action@v3
+        with:
+           personal_token: ${{ secrets.PERSONAL_TOKEN }}
+           src_path: /MvpWorker/appsettings.json
+           dst_path: /backup/
+           dst_owner: andstor
+           dst_repo_name: copycat-action
          
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
