@@ -20,7 +20,15 @@ jobs:
     steps:
       - name: Checkout to the branch
         uses: actions/checkout@v2
-
+      #substitute production appsettings entries to appsettings json file
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: '${{env.DOTNET_ROOT}}/myapp/appsettings.json'
+        env:
+          ConnectionStrings.ServiceBusConnectionString: ${{ secrets.SERVICEBUS_CONNECTION_STRING }}
+          ConnectionStrings.DataLakeConnectionString: ${{ secrets.DATALAKE_CONNECTION_STRING }}
+          App.ServerRootAddress: ${{ env.SERVER_ROOT_ADDRESS }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
