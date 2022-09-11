@@ -45,7 +45,7 @@ jobs:
           push: true
           tags: timotacr.azurecr.io/mvp-app-worker:${{ github.sha }}
           file: ./MvpWorker/Dockerfile
-          context: ./MvpWorker
+          context: ./
 
 
   deploy:
