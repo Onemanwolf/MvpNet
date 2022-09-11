@@ -28,7 +28,7 @@ jobs:
         env:
           ConnectionStrings.ServiceBusConnectionString: ${{ secrets.SERVICEBUS_CONNECTION_STRING }}
           ConnectionStrings.DataLakeConnectionString: ${{ secrets.DATALAKE_CONNECTION_STRING }}
-          App.ServerRootAddress: ${{ env.SERVER_ROOT_ADDRESS }}
+         
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
