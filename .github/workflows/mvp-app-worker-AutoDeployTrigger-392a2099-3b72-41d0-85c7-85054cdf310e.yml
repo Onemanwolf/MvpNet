@@ -28,6 +28,7 @@ jobs:
         env:
           ConnectionStrings.ServiceBusConnectionString: "${{ secrets.SERVICEBUS_CONNECTION_STRING }}"
           ConnectionStrings.DataLakeConnectionString: "${{ secrets.DATALAKE_CONNECTION_STRING }}"
+          url: https://github.com/${{github.repository}}
                
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
