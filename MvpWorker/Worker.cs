@@ -38,7 +38,7 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _dataLakeConnectionString = _configuration["datalake-connectionstring"];
+        _dataLakeConnectionString = _configuration["datalake-connection-string"];
         _connectionString = _configuration["servicebus-connection-string"];
 
         _dataLakeServiceClient = new DataLakeServiceClient(_dataLakeConnectionString);
