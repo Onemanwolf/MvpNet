@@ -1,4 +1,3 @@
-C:\Users\timot\source\repos\MvpNet\MvpWorker\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\timot\source\repos\MvpNet\MvpWorker\bin\Debug\net6.0\appsettings.json
 C:\Users\timot\source\repos\MvpNet\MvpWorker\bin\Debug\net6.0\MvpWorker.exe
 C:\Users\timot\source\repos\MvpNet\MvpWorker\bin\Debug\net6.0\MvpWorker.deps.json

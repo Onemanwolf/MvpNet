@@ -15,7 +15,8 @@ IHost host = Host.CreateDefaultBuilder(args)
         });
     }).ConfigureAppConfiguration(_config =>
     {
-        _config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        _config.AddEnvironmentVariables()
+
                .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
     })
     .Build();
