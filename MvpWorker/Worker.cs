@@ -1,10 +1,6 @@
-using System.Text;
 using Azure.Messaging.ServiceBus;
 using Azure;
 using Azure.Storage.Files.DataLake;
-using Azure.Storage.Files.DataLake.Models;
-using Azure.Storage;
-using System.IO;
 using Newtonsoft.Json;
 
 
@@ -18,18 +14,21 @@ public class Worker : BackgroundService
     string? _connectionString;
     private DataLakeServiceClient _dataLakeServiceClient;
     string? _dataLakeConnectionString;
-    private string _queueName = "myqueue";
+    private string _queueName;
+    private ServiceConfiguration _serviceConfiguration;
 
     private readonly IHttpClientFactory _clientFactory;
     private HttpClient _client;
 
-    public Worker(ILogger<Worker> logger, IConfiguration configuration, IHttpClientFactory clientFactory)
+    public Worker(ILogger<Worker> logger, IConfiguration configuration, IHttpClientFactory clientFactory, ServiceConfiguration serviceConfiguration)
     {
         _clientFactory = clientFactory;
+        _serviceConfiguration = serviceConfiguration;
         _logger = logger;
         _configuration = configuration;
-        _connectionString = _configuration["servicebus-connection-string"];
+        _connectionString = _serviceConfiguration.ServiceBusConnectionString;//_configuration["servicebus-connection-string"];
         _client = _clientFactory.CreateClient("MvpClient");
+        _queueName = _serviceConfiguration.ServiceBusQueueName;//_configuration["servicebus-queue-name"];
 
     }
 
@@ -38,14 +37,14 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _dataLakeConnectionString = _configuration["datalake-connection-string"];
-        _connectionString = _configuration["servicebus-connection-string"];
+        _dataLakeConnectionString = _serviceConfiguration.DataLakeConnectionString;//_configuration["datalake-connection-string"];
+        _connectionString = _serviceConfiguration.ServiceBusConnectionString;// _configuration["servicebus-connection-string"];
 
         _dataLakeServiceClient = new DataLakeServiceClient(_dataLakeConnectionString);
         //az containerapp update -n mvp-app-worker -g my-container-apps --set-env-vars container=my-file-system directory=my-directory subdirectory=my-subdirectory \
         // --image myregistry.azurecr.io/my-app:v2.0
-        var container = _configuration["container"]; //"my-file-system";//await CreateFileSystemAsync(_dataLakeServiceClient);
-        var directory = _configuration["Directory"]; //"my-directory"; //await CreateDirectoryAsync(_dataLakeServiceClient, container.Name);
+        var container = _serviceConfiguration.DataLakeContainerName; // _configuration["container"]; //"my-file-system";//await CreateFileSystemAsync(_dataLakeServiceClient);
+        var directory = _serviceConfiguration.DirectoryName;   //_configuration["Directory"]; //"my-directory"; //await CreateDirectoryAsync(_dataLakeServiceClient, container.Name);
         ServiceBusClient client = new ServiceBusClient(_connectionString);
 
         while (!stoppingToken.IsCancellationRequested)
@@ -116,16 +115,16 @@ public class Worker : BackgroundService
             serviceClient.GetFileSystemClient(fileSystemName);
 
         DataLakeDirectoryClient directoryClient =
-            await fileSystemClient.CreateDirectoryAsync(_configuration["directory"]);
+            await fileSystemClient.CreateDirectoryAsync(_serviceConfiguration.DirectoryName); //_configuration["directory"]
 
-        return await directoryClient.CreateSubDirectoryAsync(_configuration["subdirectory"]);
+        return await directoryClient.CreateSubDirectoryAsync(_serviceConfiguration.SubDirectoryName);  //_configuration["subdirectory"]
     }
 
 
     public async Task<DataLakeFileSystemClient> CreateFileSystemAsync
         (DataLakeServiceClient serviceClient)
     {
-        return await serviceClient.CreateFileSystemAsync(_configuration["container"]);
+        return await serviceClient.CreateFileSystemAsync(_serviceConfiguration.DataLakeContainerName);
     }
     private async Task<string> GetEncounter(string messeageId)
     {

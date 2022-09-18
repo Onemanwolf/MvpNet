@@ -8,7 +8,7 @@ USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
 WORKDIR /src
-COPY ["MvpWorker/MvpWorker.csproj", "MvpWorker/"]
+COPY ["MvpWorker/*.csproj", "MvpWorker/"]
 RUN dotnet restore "MvpWorker/MvpWorker.csproj"
 COPY . .
 WORKDIR "/src/MvpWorker"
