@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "8gJeVjVhvv52+3vFybskhbbHiUzC9p9kxLLmkvM+Rsem/si9+VhFuUIHBGeZB1UgokzjxDkL5Mc6rcdqh2aEWQ==",
+  "dgSpecHash": "wACb3PN6ru7gBvIcoAsjO1Zc/SlNkIYJ90tt3LUvHMVlybcntacjL3h1GlRxhYSZQZ5WX7oHDktW/eHTT1jeDA==",
   "success": true,
   "projectFilePath": "C:\\Users\\timot\\source\\repos\\MvpNet\\MvpWorker\\MvpWorker.csproj",
   "expectedPackageFiles": [
@@ -12,7 +12,7 @@
     "C:\\Users\\timot\\.nuget\\packages\\azure.storage.files.datalake\\12.11.0\\azure.storage.files.datalake.12.11.0.nupkg.sha512",
     "C:\\Users\\timot\\.nuget\\packages\\microsoft.azure.amqp\\2.5.10\\microsoft.azure.amqp.2.5.10.nupkg.sha512",
     "C:\\Users\\timot\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
-    "C:\\Users\\timot\\.nuget\\packages\\microsoft.extensions.configuration\\6.0.0\\microsoft.extensions.configuration.6.0.0.nupkg.sha512",
+    "C:\\Users\\timot\\.nuget\\packages\\microsoft.extensions.configuration\\6.0.1\\microsoft.extensions.configuration.6.0.1.nupkg.sha512",
     "C:\\Users\\timot\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\6.0.0\\microsoft.extensions.configuration.abstractions.6.0.0.nupkg.sha512",
     "C:\\Users\\timot\\.nuget\\packages\\microsoft.extensions.configuration.binder\\6.0.0\\microsoft.extensions.configuration.binder.6.0.0.nupkg.sha512",
     "C:\\Users\\timot\\.nuget\\packages\\microsoft.extensions.configuration.commandline\\6.0.0\\microsoft.extensions.configuration.commandline.6.0.0.nupkg.sha512",

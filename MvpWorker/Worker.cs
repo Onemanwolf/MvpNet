@@ -28,7 +28,7 @@ public class Worker : BackgroundService
         _clientFactory = clientFactory;
         _logger = logger;
         _configuration = configuration;
-        _connectionString = _configuration.GetConnectionString("ServiceBus");
+        _connectionString = _configuration["servicebus-connection-string"];
         _client = _clientFactory.CreateClient("MvpClient");
 
     }
@@ -38,12 +38,14 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _dataLakeConnectionString = _configuration.GetConnectionString("DataLakeConnectionString");
-        _connectionString = _configuration.GetConnectionString("ServiceBusConnectionString");
-        _dataLakeServiceClient = new DataLakeServiceClient(_dataLakeConnectionString);
+        _dataLakeConnectionString = _configuration["datalake-connectionstring"];
+        _connectionString = _configuration["servicebus-connection-string"];
 
-        var container = "my-file-system";//await CreateFileSystemAsync(_dataLakeServiceClient);
-        var directory = "my-directory"; //await CreateDirectoryAsync(_dataLakeServiceClient, container.Name);
+        _dataLakeServiceClient = new DataLakeServiceClient(_dataLakeConnectionString);
+        //az containerapp update -n mvp-app-worker -g my-container-apps --set-env-vars container=my-file-system directory=my-directory subdirectory=my-subdirectory \
+        // --image myregistry.azurecr.io/my-app:v2.0
+        var container = _configuration["container"]; //"my-file-system";//await CreateFileSystemAsync(_dataLakeServiceClient);
+        var directory = _configuration["Directory"]; //"my-directory"; //await CreateDirectoryAsync(_dataLakeServiceClient, container.Name);
         ServiceBusClient client = new ServiceBusClient(_connectionString);
 
         while (!stoppingToken.IsCancellationRequested)
@@ -76,7 +78,7 @@ public class Worker : BackgroundService
     private async Task SaveEncounter(DataLakeServiceClient fileSystemClient, string fileSystemName, string encounter)
     {
         DataLakeDirectoryClient directoryClient =
-        fileSystemClient.GetFileSystemClient(fileSystemName).GetDirectoryClient("my-directory").GetSubDirectoryClient("my-subdirectory");
+        fileSystemClient.GetFileSystemClient(fileSystemName).GetDirectoryClient(_configuration["directory"]).GetSubDirectoryClient(_configuration["subdirectory"]);
 
         var filename = Guid.NewGuid().ToString() + ".json";
         DataLakeFileClient fileClient = directoryClient.GetFileClient(filename);
@@ -114,16 +116,16 @@ public class Worker : BackgroundService
             serviceClient.GetFileSystemClient(fileSystemName);
 
         DataLakeDirectoryClient directoryClient =
-            await fileSystemClient.CreateDirectoryAsync("my-directory");
+            await fileSystemClient.CreateDirectoryAsync(_configuration["directory"]);
 
-        return await directoryClient.CreateSubDirectoryAsync("my-subdirectory");
+        return await directoryClient.CreateSubDirectoryAsync(_configuration["subdirectory"]);
     }
 
 
     public async Task<DataLakeFileSystemClient> CreateFileSystemAsync
         (DataLakeServiceClient serviceClient)
     {
-        return await serviceClient.CreateFileSystemAsync("my-file-system");
+        return await serviceClient.CreateFileSystemAsync(_configuration["container"]);
     }
     private async Task<string> GetEncounter(string messeageId)
     {
